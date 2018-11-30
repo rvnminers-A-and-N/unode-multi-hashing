@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/UNOMP/node-multi-hashing.git"
+    "url": "https://github.com/GRinvestPOOL/unode-multi-hashing.git"
   },
   "dependencies": {
     "bindings": "*"
