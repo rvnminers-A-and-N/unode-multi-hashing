@@ -32,6 +32,7 @@ extern "C" {
     #include "jh.h"
     #include "x5.h"
     #include "c11.h"
+    #include "x21s.h"
 }
 
 #include "boolberry.h"
@@ -88,6 +89,28 @@ Handle<Value> x11(const Arguments& args) {
 }
 
 Handle<Value> x5(const Arguments& args) {
+    HandleScope scope;
+
+    if (args.Length() < 1)
+        return except("You must provide one argument.");
+
+    Local<Object> target = args[0]->ToObject();
+
+    if(!Buffer::HasInstance(target))
+        return except("Argument should be a buffer object.");
+
+    char * input = Buffer::Data(target);
+    char output[32];
+
+    uint32_t input_len = Buffer::Length(target);
+
+    x11_hash(input, output, input_len);
+
+    Buffer* buff = Buffer::New(output, 32);
+    return scope.Close(buff->handle_);
+}
+
+Handle<Value> x21s(const Arguments& args) {
     HandleScope scope;
 
     if (args.Length() < 1)
@@ -784,6 +807,7 @@ void init(Handle<Object> exports) {
     exports->Set(String::NewSymbol("dcrypt"), FunctionTemplate::New(dcrypt)->GetFunction());
     exports->Set(String::NewSymbol("jh"), FunctionTemplate::New(jh)->GetFunction());
     exports->Set(String::NewSymbol("c11"), FunctionTemplate::New(c11)->GetFunction());
+    exports->Set(String::NewSymbol("x21s"), FunctionTemplate::New(x21s)->GetFunction());
 }
 
 NODE_MODULE(multihashing, init)
