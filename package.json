@@ -30,9 +30,6 @@
     "neoscrypt",
     "decrypt"
   ],
-    "scripts": {
-    "install": "node-gyp rebuild"
-  },
   "gypfile": true,
   "readmeFilename": "README.md",
   "description": "node-multi-hashing",
